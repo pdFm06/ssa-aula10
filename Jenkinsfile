@@ -41,6 +41,23 @@ pipeline {
                 sh 'docker build -t "$APP_IMAGE" .' }
             }
         }
+
+        stage('Image scan - Trivy') {
+            steps {
+                sh 'docker save "$APP_IMAGE" -o app-image.tar'
+                sh '''
+                    docker run --rm -v "$WORKSPACE:/src" -w /src \
+                    aquasec/trivy:0.58.2 image --input app-image.tar \
+                    --scanners vuln --exit-code 0
+                    '''
+            }
+
+            post {
+                always { sh 'rm -f app-image.tar' } }
+            }
+
+        }   
+        
     }
     post {
         always {
