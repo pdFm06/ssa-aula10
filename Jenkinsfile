@@ -118,7 +118,9 @@ pipeline {
     post {
         always {
             sh 'docker image rm "$APP_IMAGE" 2>/dev/null || true'
-            archiveArtifacts artifacts: 'reports/zap/*', allowEmptyArchive: true
+            
         }
+        archiveArtifacts artifacts: 'reports/zap/*', 
+        allowEmptyArchive: true
     }
 }
