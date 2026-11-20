@@ -44,7 +44,7 @@ pipeline {
     }
     post {
         always {
-            sh 'docker image rm "$APP_IMAGE" 2>/dev/null || true’
+            sh 'docker image rm "$APP_IMAGE" 2>/dev/null || true'
             
         }
     }
