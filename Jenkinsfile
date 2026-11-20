@@ -53,7 +53,7 @@ pipeline {
             }
 
             post {
-                always { sh 'rm -f app-image.tar' } }
+                always { sh 'rm -f app-image.tar' }
             }
 
         }   
