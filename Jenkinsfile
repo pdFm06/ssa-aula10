@@ -84,6 +84,14 @@ pipeline {
                         fi
                     '''
             }
+            post {
+                always {
+                    sh 'docker logs "$APP_CONTAINER" 2>/dev/null || true'
+                    sh 'docker rm -f "$APP_CONTAINER" 2>/dev/null || true'
+                    sh 'docker network rm "$LAB_NETWORK" 2>/dev/null || true'
+                    sh 'docker image rm "$APP_IMAGE" 2>/dev/null || true'
+                }
+            }
         }
 
         
@@ -92,14 +100,6 @@ pipeline {
         always {
             sh 'docker image rm "$APP_IMAGE" 2>/dev/null || true'
             
-        }
-    }
-    post {
-        always {
-            sh 'docker logs "$APP_CONTAINER" 2>/dev/null || true'
-            sh 'docker rm -f "$APP_CONTAINER" 2>/dev/null || true'
-            sh 'docker network rm "$LAB_NETWORK" 2>/dev/null || true'
-            sh 'docker image rm "$APP_IMAGE" 2>/dev/null || true'
         }
     }
 }
