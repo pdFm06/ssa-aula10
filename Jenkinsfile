@@ -29,9 +29,11 @@ pipeline {
         stage('SAST - Bandit') {
             steps {
                 sh 'docker build -f ci/Dockerfile.bandit -t classroombandit:local .'
+                
                 sh '''
                     docker run --rm -v "$WORKSPACE:/src" \
-                    classroom-bandit:local -r app --exit-zero
+                    -w /src \
+                    classroombandit:local -r app --exit-zero
                     '''
             }
         }
